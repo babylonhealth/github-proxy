@@ -192,7 +192,7 @@ class JaegerTelemetryCollector(TelemetryCollector, type_="jaeger"):
     pass
 ```
 
-Once imported, the above extensions can be selected using the `CACHE_BACKEND_URL` and `TELEMETRY_COLLECTOR_TYPE` env variables respectively.
+Once imported, the above extensions can be selected using the respective `CACHE_BACKEND_URL` and `TELEMETRY_COLLECTOR_TYPE` env variables.
 
 ## Relevant references
 
