@@ -23,7 +23,7 @@ typecheck:
 
 setup-poetry:
 	python -m pip install --upgrade pip
-	pip3 install "tomlkit>=0.7.2" "poetry-dynamic-versioning==0.16.0"
+	pip3 install "tomlkit>=0.7.2" poetry-dynamic-versioning
 	poetry config repositories.babylon https://artifactory.ops.babylontech.co.uk/artifactory/api/pypi/babylon-pypi
 	poetry config http-basic.babylon $(ARTIFACTORY_PYPI_USER) $(ARTIFACTORY_PYPI_API_KEY)
 
