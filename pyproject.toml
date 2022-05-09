@@ -30,11 +30,11 @@ requests = "^2.27.1"
 dacite = "^1.6.0"
 cachetools = "^5.0.0"
 cryptography = "^37.0.2"
+Jinja2 = "^3.1.2"
 
 redis = { version = ">=3.5.3<5.0.0", optional = true }
 flask = { version = "^2.0.3", optional = true }
 Flask-HTTPAuth = { version = "^4.5.0", optional = true }
-Jinja2 = "^3.1.2"
 
 [tool.poetry.extras]
 redis = ["redis"]
