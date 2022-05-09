@@ -136,7 +136,7 @@ By default, the proxy loads its configuration using the `github_proxy.Config` cl
 | `CLIENT_REGISTRY_FILE_PATH` (__Required__) | Path to the client registry file. See [here](#client-registry-file) for more. | n/a |
 | `GITHUB_PAT_*` | Variable pattern to specify GitHub user PATs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_PAT_FOO`. | n/a |
 | `GITHUB_APP_*_ID` | Variable pattern to specify GitHub App IDs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_APP_BAR_ID`. | n/a |
-| `GITHUB_APP_*_INSTALLATION_ID` | Variable pattern to specify the GitHub App installation IDs that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAR_INSTALLATION_ID`.| | n/a |
+| `GITHUB_APP_*_INSTALLATION_ID` | Variable pattern to specify the GitHub App installation IDs that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAR_INSTALLATION_ID`.| n/a |
 | `GITHUB_APP_*_PEM` | Variable pattern to specify the GitHub App private keys that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAR_PEM`. | n/a |
 
 ### Client registry file
