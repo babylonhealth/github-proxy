@@ -20,7 +20,7 @@ only_tagged: &only_tagged
       - /^.*$/
     tags:
       only:
-      - /^\d+\.\d+\.\d+$/
+      - /^.*$/
 
 restore_venv: &restore_venv
   restore_cache:
