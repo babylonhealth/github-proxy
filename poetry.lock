@@ -317,7 +317,7 @@ name = "jinja2"
 version = "3.1.2"
 description = "A very fast and expressive template engine."
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -331,7 +331,7 @@ name = "markupsafe"
 version = "2.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 
 [[package]]
@@ -841,7 +841,7 @@ redis = ["redis"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "eed1adbf2db8edd50391d620204afdc4ca8bf824d7034ecbacabd0b62de1850b"
+content-hash = "e79b5090bb9dc64758aa7174f507c5b18336664222b382cb1d35706e8ac167f2"
 
 [metadata.files]
 async-timeout = [

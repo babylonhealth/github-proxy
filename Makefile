@@ -7,6 +7,9 @@ build: setup-poetry
 	poetry-dynamic-versioning
 	poetry build
 
+run:
+	source env.sh && python example.py
+
 clean:
 	find . -name "*.py[cod]" -delete
 
@@ -50,4 +53,4 @@ dist: clean build
 release: dist
 	poetry publish -r babylon --no-interaction
 
-.PHONY: run clean format lint typecheck setup-poetry install test test-unit test-integration local-redis stop-local-redis
+.PHONY: build run clean format lint typecheck setup-poetry install test test-unit test-integration local-redis stop-local-redis

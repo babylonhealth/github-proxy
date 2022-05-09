@@ -1,3 +1,4 @@
+export DEBUG="true"
 export GITHUB_PAT_TEST=${GITHUB_PAT_TEST:-"$(vault read -field="value" secret/dev-ops/github-proxy/GITHUB_PAT_TEST)"}
 export GITHUB_APP_TEST_PEM=${GITHUB_APP_TEST_PEM:-"$(vault read -field="value" secret/dev-ops/github-proxy/GITHUB_APP_TEST_PEM)"}
 export GITHUB_APP_TEST_ID=178519

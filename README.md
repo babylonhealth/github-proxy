@@ -40,7 +40,7 @@ $ docker pull babylonhealth/github-proxy
 
 ## Usage
 
-Flask integration:
+Flask integration (see [example](./example.py)):
 
 ```python
 from github_proxy import blueprint
@@ -81,6 +81,13 @@ def request_handler(proxy: Proxy, request: Request) -> Response
     return proxy.request(request.path, request, "foo-client")
 ```
 
+Registered clients (see [client registry file](#client-registry-file)) can then integrate with the proxy using their proxy client token. A proxy client token may be used as a regular GitHub PAT in [SAML SSO Authentication](https://docs.github.com/en/rest/overview/other-authentication-methods#authenticating-for-saml-sso):
+
+```console
+$ curl -H "Authorization: token ${CLIENT_TOKEN}" http://localhost:5000/zen
+Keep it logically awesome.
+```
+
 ## Architecture
 
 The need for such a solution stemmed from Babylon's reliance on [GitOps](https://about.gitlab.com/topics/gitops/) as an operational and change release framework. This led to a high (and at times abusive) usage of the GitHub API through a limited number of GitHub bot users. Frequent rate-limiting and lack of observability in terms of which client/workflow/team is abusing the API resulted in suboptimal developer experience.
@@ -118,22 +125,23 @@ By default, the proxy loads its configuration using the `github_proxy.Config` cl
 
 ### Environment variables
 
-* `GITHUB_API_URL`: Base url of the GitHub API server. Suffix with `/api/v3` when proxying to an Enterprise server. Defaults to: `https://api.github.com`.
-* `CACHE_TTL`: The TTL (in seconds) of the cache that stores GitHub responses. Defaults to `3600`.
-* `CACHE_BACKEND_URL`: URI of the cache backend that stores GitHub responses. The scheme of the URI infers the cache backend type. Defaults to `inmemory://`
-* `GITHUB_CREDS_CACHE_MAXSIZE`: The max size of the inmemory cache used for storing rate limited GitHub credentials. Defaults to `256`.
-* `GITHUB_CREDS_CACHE_TTL_PADDING`: The TTL padding (in minutes) of the inmemory cache used for storing rate limited GitHub credentials. This padding accounts for the clock drift between the proxy and the GitHub servers. Defaults to `10`.
-* `TELEMETRY_COLLECTOR_TYPE`: The type of telemetry collector to be used. Defaults to `noop`.
-* `CLIENT_REGISTRY_FILE_PATH`: Path to the client registry file. This is a __required__ variable.
-* `GITHUB_PAT_*`: Variable pattern to specify GitHub user PATs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_PAT_BAR`.
-* `GITHUB_APP_*_ID`: Variable pattern to specify GitHub App IDs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_APP_BAZ_ID`.
-* `GITHUB_APP_*_INSTALLATION_ID`: Variable pattern to specify the GitHub App installation IDs that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAZ_INSTALLATION_ID`.
-* `GITHUB_APP_*_PEM`: Variable pattern to specify the GitHub App private keys that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAZ_PEM`.
-
+| Variable | Description | Default |
+| - | - | - |
+| `GITHUB_API_URL` | Base url of the GitHub API server. | `https://api.github.com` |
+| `CACHE_TTL` | The TTL (in seconds) of the cache that stores GitHub responses. | `3600` |
+| `CACHE_BACKEND_URL` | URI of the cache backend that stores GitHub responses. The scheme of the URI infers the cache backend type. | `inmemory://` |
+| `GITHUB_CREDS_CACHE_MAXSIZE` | The max size of the inmemory cache used for storing rate limited GitHub credentials. | `256` |
+| `GITHUB_CREDS_CACHE_TTL_PADDING` | The TTL padding (in minutes) of the inmemory cache used for storing rate limited GitHub credentials. This padding accounts for potential clock drift between the proxy and the GitHub servers. | `10` |
+| `TELEMETRY_COLLECTOR_TYPE` | The type of telemetry collector to be used. | `noop` |
+| `CLIENT_REGISTRY_FILE_PATH` (__Required__) | Path to the client registry file. See [here](#client-registry-file) for more. | n/a |
+| `GITHUB_PAT_*` | Variable pattern to specify GitHub user PATs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_PAT_FOO`. | n/a |
+| `GITHUB_APP_*_ID` | Variable pattern to specify GitHub App IDs that the proxy can use when integrating with the GitHub API. Example variable name: `GITHUB_APP_BAR_ID`. | n/a |
+| `GITHUB_APP_*_INSTALLATION_ID` | Variable pattern to specify the GitHub App installation IDs that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAR_INSTALLATION_ID`.| | n/a |
+| `GITHUB_APP_*_PEM` | Variable pattern to specify the GitHub App private keys that correspond to each of the GitHub App IDs. Example variable name: `GITHUB_APP_BAR_PEM`. | n/a |
 
 ### Client registry file
 
-This file specifies which clients are authorized to integrate with the proxy:
+This file specifies the set of clients that are authorized to integrate with the proxy:
 
 ```yaml
 ---
@@ -149,7 +157,16 @@ clients:
 ...
 ```
 
-The tokens included in this file (and hence the whole file) must be treated as secret. These are the authorization tokens that clients need to pass to the proxy (instead of a GitHub token).
+The tokens included in this file are the authorization tokens that clients need to pass to the proxy (instead of GitHub tokens). The name of each client should be unique and is to be used for telemetry purposes. The scopes define the resources and methods of the REST API that each of the clients is authorized to access (default to full access).
+
+Tokens within this file must be treated as secrets. Since secrets cannot be commited to VCS, the registry file can also be provided as a [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/) template, enabling the injection of secrets at runtime through env variables:
+
+```jinja
+version: 1
+clients:
+  - name: test
+    token: {{ env.TOKEN_TEST }}
+```
 
 ## Extending the proxy
 
@@ -174,6 +191,8 @@ class JaegerTelemetryCollector(TelemetryCollector, type_="jaeger"):
     # methods of the TelemetryCollector interface
     pass
 ```
+
+Once imported, the above extensions can be selected using the `CACHE_BACKEND_URL` and `TELEMETRY_COLLECTOR_TYPE` env variables respectively.
 
 ## Relevant references
 
