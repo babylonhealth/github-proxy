@@ -39,6 +39,9 @@ class ClientRegistry:
 
 class Config(GitHubTokenConfig, CacheBackendConfig):
     def __init__(self, config_dict: Optional[Mapping[str, str]] = None):
+        # NOTE: When adding new config items, do not forget to update the
+        # Configuration table in the README docs.
+
         if config_dict is None:
             config_dict = os.environ
 
