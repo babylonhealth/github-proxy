@@ -4,6 +4,7 @@ LOCAL_REDIS_PORT=6379
 MAX_LINE_LENGTH=88
 
 build: setup-poetry
+	poetry-dynamic-versioning
 	poetry build
 
 clean:
@@ -22,7 +23,8 @@ typecheck:
 	mypy --package github_proxy --strict
 
 setup-poetry:
-	pip3 install "tomlkit>=0.7.2" poetry-dynamic-versioning
+	python -m pip install --upgrade pip
+	pip3 install "tomlkit>=0.7.2" "poetry-dynamic-versioning==0.16.0"
 	poetry config repositories.babylon https://artifactory.ops.babylontech.co.uk/artifactory/api/pypi/babylon-pypi
 	poetry config http-basic.babylon $(ARTIFACTORY_PYPI_USER) $(ARTIFACTORY_PYPI_API_KEY)
 
