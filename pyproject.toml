@@ -7,6 +7,7 @@ repository = "https://github.com/babylonhealth/github-proxy"
 readme = "README.md"
 keywords = ["GitHub", "API", "proxy"]
 include = ["github_proxy/py.typed"]
+license = "Apache-2.0"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
