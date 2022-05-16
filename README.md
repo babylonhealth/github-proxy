@@ -77,7 +77,7 @@ from github_proxy import inject_proxy
 from werkzeug import Request, Response
 
 @inject_proxy
-def request_handler(proxy: Proxy, request: Request) -> Response
+def request_handler(proxy: Proxy, request: Request) -> Response:
     return proxy.request(request.path, request, "foo-client")
 ```
 
