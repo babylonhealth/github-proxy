@@ -2,15 +2,15 @@
 
 [![CircleCI](https://circleci.com/gh/babylonhealth/github-proxy/tree/master.svg?style=svg)](https://circleci.com/gh/babylonhealth/github-proxy/tree/master) [![Maintainability](https://api.codeclimate.com/v1/badges/8b7eb3a3b43964bc98ed/maintainability)](https://codeclimate.com/repos/6278f1a41d5c1a018e0037ff/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/8b7eb3a3b43964bc98ed/test_coverage)](https://codeclimate.com/repos/6278f1a41d5c1a018e0037ff/test_coverage)
 
-A caching forward proxy to GitHub's REST and GraphQL APIs. GitHub-Proxy is a thin, highly extensible, highly configurable python framework based on [Werkzeug](https://werkzeug.palletsprojects.com/). It comes with out-of-the-box support for Flask and Redis, but can be extended to integrate with other application frameworks, databases, and monitoring tools.
+A caching forward proxy to GitHub's REST and GraphQL APIs. GitHub-Proxy is a thin, highly extensible, highly configurable python framework based on [Werkzeug](https://werkzeug.palletsprojects.com/) (and good intentions 😉). It comes with out-of-the-box support for Flask and Redis, but can be extended to integrate with other application frameworks, databases, and monitoring tools.
 
 Features:
 
 * Caching of GitHub responses based on [conditional requests](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#conditional-requests).
 * Improved and granular monitoring of client usage and [rate-limit](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting) consumption.
-* Provides a central and extensible pool of GitHub credentials (either GitHub Apps or user PATs) enabling rotation of rate-limited tokens. Negates the need of managing a GitHub App or bot user account per client.
+* Provides a central and extensible pool of GitHub credentials (either GitHub Apps or user PATs) enabling the automatic rotation of rate-limited tokens. Negates the need of managing a GitHub App or bot user account per client.
 * Coarse-grained and highly configurable authorization of clients based on API resource scopes.
-* 100% compatible with GitHub's REST and GraphQL interfaces as well as the Enterprise API.
+* 100% compatible with GitHub's REST and GraphQL interfaces as well as the Enterprise Server.
 
 ## Install
 
@@ -120,8 +120,8 @@ Sequence diagrams:
 
 By default, the proxy loads its configuration using the `github_proxy.Config` class from the following 2 sources:
 
-1. Environment variables
-2. Client registry file
+1. [Environment variables](#environment-variables)
+2. [Client registry file](#client-registry-file)
 
 ### Environment variables
 
