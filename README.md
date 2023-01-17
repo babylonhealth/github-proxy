@@ -13,7 +13,6 @@ Features:
 * 100% compatible with GitHub's REST and GraphQL interfaces as well as the Enterprise Server.
 
 ## Install
-
 Core framework:
 
 ```console
